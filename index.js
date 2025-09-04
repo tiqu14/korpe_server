@@ -24,12 +24,21 @@ app.use("/case", require("./Routers/Case"));
 app.use("/sale", require("./Routers/Sale"));
 app.use("/pillow", require("./Routers/Pillow"));
 
-app.listen(
-  5000,
-  mongoose
-    .connect(
-      `mongodb+srv://tiqu:tiqu@eightman.rlpt6.mongodb.net/?retryWrites=true&w=majority&appName=eightman`
-    )
-    .then(() => console.log("Successfully connected to the Database"))
-    .catch((err) => console.log(err))
-);
+const startServer = async () => {
+  try {
+    await mongoose.connect(
+      "mongodb+srv://marat:maratpass@korpe.yzvscq8.mongodb.net/?retryWrites=true&w=majority&appName=korpe"
+    );
+    console.log("✅ Successfully connected to the Database");
+
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to connect to MongoDB:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
